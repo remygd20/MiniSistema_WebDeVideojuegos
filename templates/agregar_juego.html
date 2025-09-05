@@ -1,0 +1,14 @@
+{% extends "maestra.html" %}
+{% block titulo %}Agregar juego{% endblock %}
+{% block contenido %}
+<section class="section">
+    <h3 class="is-size-3">Agregar juego</h3>
+    <form action="{{ url_for('guardar_juego') }}" method="post">
+        <input required type="text" name="nombre" placeholder="Nombre" class="input mb-2">
+        <input required type="text" name="descripcion" placeholder="Descripción" class="input mb-2">
+        <input required type="number" name="precio" placeholder="Precio" class="input mb-2">
+        <button class="button is-success">Guardar</button>
+        <a href="{{ url_for('juegos') }}" class="button is-primary">Volver</a>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "maestra.html" %}
+{% block titulo %}Editar juego{% endblock %}
+{% block contenido %}
+<section class="section">
+    <h3 class="is-size-3">Editar juego</h3>
+    <form action="{{ url_for('actualizar_juego') }}" method="post">
+        <input type="hidden" name="id" value="{{ juego[0] }}">
+        <input required type="text" name="nombre" value="{{ juego[1] }}" class="input mb-2">
+        <input required type="text" name="descripcion" value="{{ juego[2] }}" class="input mb-2">
+        <input required type="number" name="precio" value="{{ juego[3] }}" class="input mb-2">
+        <button class="button is-success">Guardar</button>
+        <a href="{{ url_for('juegos') }}" class="button is-primary">Volver</a>
+    </form>
+</section>
+{% endblock %}
