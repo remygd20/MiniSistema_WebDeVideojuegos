@@ -13,3 +13,4 @@ def obtener_conexion():
     except Error as e:
         print(f"Error al conectar a la BD: {e}")
         return None
+    
