@@ -17,15 +17,15 @@
         <tbody>
             {% for juego in juegos %}
             <tr>
-                <td>{{ juego[1] }}</td>
-                <td>{{ juego[2] }}</td>
-                <td>{{ juego[3] }}</td>
+                <td>{{ juego.nombre }}</td>
+                <td>{{ juego.descripcion }}</td>
+                <td>{{ juego.precio }}</td>
                 <td>
-                    <a href="{{ url_for('editar_juego', id=juego[0]) }}" class="button is-info">Editar</a>
+                    <a href="{{ url_for('editar_juego', id=juego.id) }}" class="button is-info">Editar</a>
                 </td>
                 <td>
                     <form action="{{ url_for('eliminar_juego') }}" method="post">
-                        <input type="hidden" name="id" value="{{ juego[0] }}">
+                        <input type="hidden" name="id" value="{{ juego.id }}">
                         <button class="button is-danger">Eliminar</button>
                     </form>
                 </td>
