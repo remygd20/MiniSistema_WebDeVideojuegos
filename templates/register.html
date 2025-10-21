@@ -1,0 +1,60 @@
+{% extends "maestra.html" %}
+{% block titulo %}Registro{% endblock %}
+{% block contenido %}
+<section class="section">
+    <div class="columns is-centered">
+        <div class="column is-one-third">
+            <h3 class="is-size-3">Registrarse</h3>
+
+            <form method="POST" action="{{ url_for('register') }}" id="register-form" novalidate>
+                {{ form.hidden_tag() }}
+
+                <div class="field">
+                    {{ form.username.label(class="label") }}
+                    <div class="control">
+                        {{ form.username(class="input", id="username-register") }}
+                    </div>
+                    <p class="help is-danger" id="username-register-error"></p>
+                    
+                    {% for error in form.username.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="field">
+                    {{ form.password.label(class="label") }}
+                    <div class="control">
+                        {{ form.password(class_="input", id="password-register") }}
+                    </div>
+                    <p class="help is-danger" id="password-register-error"></p>
+                    
+                    {% for error in form.password.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="field">
+                    {{ form.password2.label(class="label") }}
+                    <div class="control">
+                        {{ form.password2(class_="input", id="password2-register") }}
+                    </div>
+                    <p class="help is-danger" id="password2-register-error"></p>
+                    
+                    {% for error in form.password2.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        {{ form.submit(class="button is-success") }}
+                    </div>
+                </div>
+            </form>
+            <p class="mt-4">
+                ¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">Inicia sesión aquí</a>.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
