@@ -1,16 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from models import db, Juego, User  # Importar User
+from models import db, Juego, User
 import controlador_juegos
-from forms import LoginForm, RegistrationForm  # Importar formularios
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from werkzeug.security import generate_password_hash # Para registrar
+from auth import auth_bp
+from flask_login import LoginManager, login_required, current_user
 
 app = Flask(__name__)
 
 # Configuración de la conexión a la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:hola1234*@localhost/juegos'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# Clave secreta para sesiones y WTForms
 app.config['SECRET_KEY'] = 'mi-clave-secreta-muy-segura-12345'
 
 # Se inicializa la base de datos con la configuración de la app
@@ -19,63 +17,21 @@ db.init_app(app)
 # Configuración de Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login' # Vista a la que se redirige si no está logueado
-login_manager.login_message = 'Por favor, inicia sesión para acceder a esta página.' # Mensaje flash
+# Apunta a la vista del blueprint
+login_manager.login_view = 'auth.login' 
+login_manager.login_message = 'Por favor, inicia sesión para acceder a esta página.'
+login_manager.login_message_category = 'error' # Opcional: para que el flash sea rojo
 
+# Callback para cargar usuario desde la sesión
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# REGISTRAR EL BLUEPRINT
+# Le decimos a la app que use las rutas de 'auth_bp'
+app.register_blueprint(auth_bp, url_prefix='/auth')
 
-# --- Rutas de Autenticación ---
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('juegos'))
-    
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.verify_password(form.password.data):
-            flash('Usuario o contraseña inválidos', 'error') # Categoría 'error'
-            return redirect(url_for('login'))
-        
-        login_user(user, remember=form.remember_me.data)
-        flash('Has iniciado sesión exitosamente.', 'message') # Categoría 'message'
-        
-        next_page = request.args.get('next')
-        return redirect(next_page or url_for('juegos'))
-
-    return render_template('login.html', form=form)
-
-
-@app.route("/logout")
-@login_required 
-def logout():
-    logout_user()
-    flash('Has cerrado sesión.', 'message')
-    return redirect(url_for('login'))
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('juegos'))
-    
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, password_hash=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash('¡Felicidades, te has registrado exitosamente! Ahora puedes iniciar sesión.', 'message')
-        return redirect(url_for('login'))
-
-    return render_template('register.html', form=form)
-
-
-# --- Rutas de Juegos (Protegidas) ---
+# Rutas de Juegos Protegidas
 
 @app.route("/")
 @app.route("/juegos")
@@ -133,6 +89,5 @@ def eliminar_juego():
 # --- Ejecutar la aplicación ---
 if __name__ == '__main__':
     with app.app_context():
-        # db.create_all() creará la tabla 'users' si no existe
         db.create_all()
     app.run(port=8000, debug=True)

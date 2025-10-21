@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, ValidationError
+
 from models import User
 
 class LoginForm(FlaskForm):
@@ -21,7 +22,6 @@ class RegistrationForm(FlaskForm):
     )
     submit = SubmitField('Registrarse')
 
-    # Validador que asegura que el username no exista
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:

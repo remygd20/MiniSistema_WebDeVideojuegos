@@ -6,7 +6,7 @@
         <div class="column is-one-third">
             <h3 class="is-size-3">Iniciar Sesión</h3>
 
-            <form method="POST" action="{{ url_for('login') }}" id="login-form" novalidate>
+            <form method="POST" action="{{ url_for('auth.login') }}" id="login-form" novalidate>
                 {{ form.hidden_tag() }}
 
                 <div class="field">
@@ -15,7 +15,6 @@
                         {{ form.username(class="input", placeholder="Tu usuario", id="username-login") }}
                     </div>
                     <p class="help is-danger" id="username-login-error"></p>
-                    
                     {% for error in form.username.errors %}
                         <p class="help is-danger">{{ error }}</p>
                     {% endfor %}
@@ -27,7 +26,6 @@
                         {{ form.password(class="input", placeholder="Tu contraseña", id="password-login") }}
                     </div>
                     <p class="help is-danger" id="password-login-error"></p>
-                    
                     {% for error in form.password.errors %}
                         <p class="help is-danger">{{ error }}</p>
                     {% endfor %}
