@@ -3,6 +3,7 @@ from models import db, Juego, User
 import controlador_juegos
 from auth import auth_bp
 from flask_login import LoginManager, login_required, current_user
+from api import api_bp
 
 app = Flask(__name__)
 
@@ -30,6 +31,8 @@ def load_user(user_id):
 # REGISTRAR EL BLUEPRINT
 # Le decimos a la app que use las rutas de 'auth_bp'
 app.register_blueprint(auth_bp, url_prefix='/auth')
+# Registrar el Blueprint de la API
+app.register_blueprint(api_bp, url_prefix='/api')
 
 # Rutas de Juegos Protegidas
 

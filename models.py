@@ -18,6 +18,15 @@ class Juego(db.Model):
     def __repr__(self):
         return f'<Juego {self.nombre}>'
 
+# Este método convierte el objeto Juego a un diccionario
+    # que luego se puede convertir a JSON.
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nombre': self.nombre,
+            'descripcion': self.descripcion,
+            'precio': self.precio
+        }
 
 # Modelo User
 class User(UserMixin, db.Model):
