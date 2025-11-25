@@ -1,0 +1,17 @@
+test_create_juego_api (test_api.APITestCase.test_create_juego_api)
+Prueba POST /api/juegos para crear uno ... ok
+test_get_juegos_empty (test_api.APITestCase.test_get_juegos_empty)
+Prueba GET /api/juegos cuando no hay nada ... ok
+test_juego_creation (test_models.ModelTestCase.test_juego_creation)
+Prueba que se pueda crear y guardar un juego ... ok
+test_password_hashing (test_models.ModelTestCase.test_password_hashing)
+Prueba que las contrase�as se encripten y verifiquen bien ... ok
+test_login_page_loads (test_routes.RoutesTestCase.test_login_page_loads)
+Prueba que la p�gina de login cargue (c�digo 200) ... ok
+test_protected_route_redirect (test_routes.RoutesTestCase.test_protected_route_redirect)
+Prueba que entrar a /juegos sin loguearse te mande al login ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.309s
+
+OK
