@@ -8,7 +8,7 @@ from api import api_bp
 app = Flask(__name__)
 
 # Configuración de la conexión a la base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:hola1234*@localhost/juegos'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Rgsar2004*@localhost/juegos'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'mi-clave-secreta-muy-segura-12345'
 

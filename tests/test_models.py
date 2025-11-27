@@ -5,17 +5,14 @@ from models import User, Juego
 class ModelTestCase(unittest.TestCase):
     def setUp(self):
         """Se ejecuta ANTES de cada prueba"""
-        # Configuramos la app para testeo y usamos BD en memoria (SQLite)
-        # Esto evita borrar tus datos reales de MySQL
         app.config['TESTING'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        app.config['WTF_CSRF_ENABLED'] = False  # Desactivar CSRF para facilitar tests
+        app.config['WTF_CSRF_ENABLED'] = False
         
         self.app = app.test_client()
         self.app_context = app.app_context()
         self.app_context.push()
         
-        # Crea las tablas en la BD de memoria
         db.create_all()
 
     def tearDown(self):
@@ -38,7 +35,6 @@ class ModelTestCase(unittest.TestCase):
         db.session.add(j)
         db.session.commit()
         
-        # Verificamos que se haya guardado (ID debe ser 1)
         self.assertEqual(Juego.query.count(), 1)
         self.assertEqual(Juego.query.first().nombre, 'Mario')
 
